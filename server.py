@@ -10,5 +10,9 @@ def index():
 def recalls():
     return render_template('total-recalls.html')
 
+@app.route('/recalls/details')
+def recall_details():
+    return render_template('recall-details.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

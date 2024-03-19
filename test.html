@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Checkboxes</title>
+</head>
+<body>
+    <input type="checkbox" name="checkbox1" id="checkbox1" style="display: none;">
+    <input type="checkbox" name="checkbox2" id="checkbox2" style="display: none;">
+    <input type="checkbox" name="checkbox3" id="checkbox3" style="display: none;">
+    <!-- Add more checkboxes as needed -->
+
+    <button id="showCheckboxesButton">Show Checkboxes</button>
+
+    <script>
+        document.getElementById('showCheckboxesButton').addEventListener('click', function() {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
