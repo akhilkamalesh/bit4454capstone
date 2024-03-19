@@ -1,0 +1,37 @@
+{% extends "layouts/base-logged.html" %}
+
+{% block title %}Recall Details{% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="d-flex align-items-center justify-content-center mt-3">
+            <p class="h1 text-uppercase text-light">recall details</p>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-5">
+            <img src="../images/cpsc.png">
+            <div class="row mt-5">
+                <div class="col-6">
+                    <button class="contact1-form-btn text-uppercase">back</button>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-2"></div>
+        <div class="col-5">
+            <p class="h3 text-light">iPhone XS</p>
+            <p class="text-light border bg-dark p-3 mt-5 rounded">
+                The iPhone XS has a safety issue related to its lithium-ion
+                battery. Reports suggested that some iPhone XS models were
+                experiencing overheating or even catching fire while in use or
+                charging, prompting the investigation and issue safety guidance
+                to consumers.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
