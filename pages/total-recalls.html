@@ -1,11 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "layouts/base-logged.html" %}
+
+{% block title %}Recalls{% endblock title %}
+
+{% block stylesheets %}
+<style>
+    .table-gray {
+        background-color: #8d93aa;
+        text-align: center;
+    }
+    .table-gray th,
+    .table-gray td {
+        border-color: white;
+        background-color: #8d93aa;
+        color: white;
+        font-family: Montserrat-Regular;
+    }
+    .table-gray th {
+        color: #525562;
+        font-family: Montserrat-Bold;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="d-flex align-items-center justify-content-center mt-2">
+            <p class="h1 text-uppercase text-light">recent product recall alerts</p>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <table class="table table-gray">
+            <thead>
+                <tr class="text-uppercase">
+                    <th>Product Name</th>
+                    <th>Recall Reason</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>iPhone XS</td>
+                    <td>Safety Recall</td>
+                    <td>2024-03-01</td>
+                </tr>
+                <tr>
+                    <td>Samsung Galaxy</td>
+                    <td>Quality Issue</td>
+                    <td>2024-03-02</td>
+                </tr>
+                <tr>
+                    <td>Sony Bravia</td>
+                    <td>Material Defect</td>
+                    <td>2024-03-03</td>
+                </tr>
+                <tr>
+                    <td>Dell XPS</td>
+                    <td>Battery Replacement</td>
+                    <td>2024-03-04</td>
+                </tr>
+                <tr>
+                    <td>Whirlpool Fridge</td>
+                    <td>Safety Warning</td>
+                    <td>2024-03-05</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row mt-5 pt-3">
+        <div class="col-9">
+
+        </div>
+        <div class="col-2">
+            <button class="contact1-form-btn text-uppercase">select high priority</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}

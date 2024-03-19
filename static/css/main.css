@@ -39,6 +39,29 @@ html {
 }
 
 /*---------------------------------------------*/
+.navbar {
+  background-color: black;
+  color: white;
+  font-family: Montserrat-Regular;
+  height: 8%;
+}
+
+.nav-item {
+  border-right: 1px solid white;
+  padding-right: 1rem;
+  margin-left: 1rem;
+  font-family: Montserrat-Regular;
+}
+
+.nav-item:last-child {
+  border-right: none;
+}
+
+.nav-link {
+  font-family: Montserrat-Bold;
+}
+
+/*---------------------------------------------*/
 a {
   font-family: Montserrat-Regular;
   font-size: 14px;
