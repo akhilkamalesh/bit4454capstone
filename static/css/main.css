@@ -109,10 +109,6 @@ li {
 
 
 /*---------------------------------------------*/
-input {
-  outline: none;
-  border: none;
-}
 
 textarea {
   outline: none;
@@ -247,6 +243,9 @@ input.input1 {
   height: 50px;
   border-radius: 25px;
   padding: 0 30px;
+  background-color: #42507f;
+  border-color: #808492;
+  
 }
 
 input.input1+.shadow-input1 {
@@ -275,12 +274,11 @@ textarea.input1+.shadow-input1 {
   height: 50px;
   width: 100%;
   border-radius: 25px;
-  background-color: #ffffff;
-  opacity:0.4;
-  font-family: Montserrat-Bold;
+  background-color: #42507f;
+  font-family: Montserrat-Regular;
   font-size: 15px;
   line-height: 1.5;
-  color: #000000;
+  color: white;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -289,11 +287,16 @@ textarea.input1+.shadow-input1 {
   justify-content: center;
   align-items: center;
   padding: 0 25px;
+  border-color: #808492;
+}
+
+.input1::placeholder {
+  color: white;
 }
 
 .input1:hover {
-  background: #ffffff;
-  opacity: 0.8;
+  background: #42507f;
+  opacity: 0.7;
 }
 
 .shadow-input1 {
@@ -343,12 +346,11 @@ textarea.input1+.shadow-input1 {
   height: 50px;
   width: 100%;
   border-radius: 25px;
-  background-color: #ffffff;
+  background-color: #878da1;
   color: #ffffff;
   font-family: Montserrat-Bold;
   font-size: 15px;
   line-height: 1.5;
-  color: #000000;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -374,8 +376,8 @@ textarea.input1+.shadow-input1 {
 }
 
 .contact1-form-btn:hover {
-  background: #ffffff;
-  opacity:0.4;
+  background: #878da1;
+  opacity:0.6;
 }
 
 .contact1-form-btn:hover i {
@@ -502,4 +504,8 @@ textarea.input1+.shadow-input1 {
     visibility: visible;
     opacity: 1;
   }
+}
+
+.cover-logo {
+  max-height: 58rem;
 }
