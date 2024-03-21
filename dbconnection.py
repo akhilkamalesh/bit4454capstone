@@ -2,6 +2,7 @@ import pyodbc
 import urllib.request
 import json
 import re
+import csv
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
@@ -68,6 +69,7 @@ def load_recalls():
     return rows
 
 def prioritize_recalls(selected_recalls):
+
     cnxn = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};Server=tcp:cpsc-server0313.database.windows.net,1433;Database=CPSCDatabase0313;Uid=cpscadmin;Pwd=CP$CD@taB!t4454;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
     cursor = cnxn.cursor()
 
@@ -77,4 +79,26 @@ def prioritize_recalls(selected_recalls):
         cursor.execute(sql_query, recall_id)
     
     cursor.commit()
+
+    sql_query2 = "SELECT * FROM [dbo].[Recalls] WHERE IsPrioritized = 1"
+    cursor.execute(sql_query2)
+    results = cursor.fetchall()
+
+    sql_query3 = "SELECT * FROM [dbo].[User] where CPSCType = Investigator"
+    cursor.execute(sql_query3)
+    users = cursor.fetchall()
+
+    output = open('prioritizedrecalls.csv', 'w')
+    myFile = csv.writer(output)
+    myFile.writerows(results)
+
+    output.close()
+
+    useroutput = open('investigatoremaillist.csv', 'w')
+    myUserFile = csv.writer(useroutput)
+    myUserFile.writerows(results)
+
+    useroutput.close()
+
+    
     cursor.close()
