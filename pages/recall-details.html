@@ -2,35 +2,55 @@
 
 {% block title %}Recall Details{% endblock title %}
 
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<style>
+    .desc {
+        background-color: #252c47;
+        border-radius: 1px;
+        border-color: gray;
+        border-width: 1px;
+        border-style: solid;
+        font-family: Montserrat-Regular;
+    }
+    .product {
+        max-height: 32rem;
+    }
+    a:hover {
+        text-decoration: none;
+    }
+</style>
+{% endblock stylesheets %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="row mt-5">
         <div class="d-flex align-items-center justify-content-center mt-3">
-            <p class="h1 text-uppercase text-light">recall details</p>
+            <p class="h1 text-uppercase text-black fw-bold">recall details</p>
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col-5">
-            <img src="../images/cpsc.png">
-            <div class="row mt-5">
-                <div class="col-6">
-                    <button class="contact1-form-btn text-uppercase">back</button>
-                </div>
-            </div>
-            
-        </div>
         <div class="col-2"></div>
-        <div class="col-5">
-            <p class="h3 text-light">iPhone XS</p>
-            <p class="text-light border bg-dark p-3 mt-5 rounded">
+        <div class="col-4">
+            <img class="product" src="https://www.apple.com/newsroom/images/product/iphone/standard/Apple-iPhone-Xs-line-up-09122018_inline.jpg.large.jpg">
+        </div>
+        <div class="col-1"></div>
+        <div class="col-4">
+            <p class="h3 text-dark">iPhone XS</p>
+            <p class="desc text-light p-3 mt-4">
                 The iPhone XS has a safety issue related to its lithium-ion
                 battery. Reports suggested that some iPhone XS models were
                 experiencing overheating or even catching fire while in use or
                 charging, prompting the investigation and issue safety guidance
                 to consumers.
             </p>
+            <div class="row mt-4">
+                <div class="col-6"></div>
+                <div class="col-6">
+                    <a href="{{ url_for('recalls') }}">
+                        <button class="custom-btn text-uppercase" onclick="">back</button>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

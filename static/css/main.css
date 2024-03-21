@@ -389,6 +389,31 @@ textarea.input1+.shadow-input1 {
 }
 
 
+.custom-btn {
+  height: 50px;
+  width: 100%;
+  border-radius: 25px;
+  border: 1px solid white ;
+  background-color: #9ba1b5;
+  color: #ffffff;
+  border-color: #ffffff;
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+}
+.custom-btn:hover {
+  color: white;
+  background: #9ba1b5;
+  opacity:0.6;
+}
 
 
 /*------------------------------------------------------------------

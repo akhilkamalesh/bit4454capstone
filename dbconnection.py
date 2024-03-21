@@ -3,7 +3,7 @@ import urllib.request
 import json
 import re
 from datetime import datetime
-
+from flask_sqlalchemy import SQLAlchemy
 
 def load_data():
     cnxn = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};Server=tcp:cpsc-server0313.database.windows.net,1433;Database=CPSCDatabase0313;Uid=cpscadmin;Pwd=CP$CD@taB!t4454;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
@@ -58,5 +58,23 @@ def authenticate(username, password):
     else:
         return 'Inspector'
 
+def load_recalls():
+    cnxn = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};Server=tcp:cpsc-server0313.database.windows.net,1433;Database=CPSCDatabase0313;Uid=cpscadmin;Pwd=CP$CD@taB!t4454;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+    cursor = cnxn.cursor()
+
+    cursor.execute("SELECT * FROM [dbo].[Recalls]")
+    rows = cursor.fetchall()
+
+    return rows
+
+def prioritize_recalls(selected_recalls):
+    cnxn = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};Server=tcp:cpsc-server0313.database.windows.net,1433;Database=CPSCDatabase0313;Uid=cpscadmin;Pwd=CP$CD@taB!t4454;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+    cursor = cnxn.cursor()
+
+    for recall_id in selected_recalls:
+        recall_id = int(recall_id)
+        sql_query = "UPDATE [dbo].[Recalls] SET IsPrioritized = 1 WHERE RecallID = ?"
+        cursor.execute(sql_query, recall_id)
     
-    
+    cursor.commit()
+    cursor.close()

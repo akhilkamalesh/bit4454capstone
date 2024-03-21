@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request
-from dbconnection import authenticate
+from flask import Flask, render_template, request, url_for, redirect
+from dbconnection import authenticate, load_recalls, prioritize_recalls
 
 app = Flask(__name__, template_folder='pages')
 
@@ -19,9 +19,12 @@ def submit():
         else:
             return index()
 
-@app.route('/recalls')
+@app.route('/recalls', methods=['POST', 'GET'])
 def recalls():
-    return render_template('total-recalls.html')
+    recalls_data = load_recalls()
+    selected_recalls = request.form.getlist('checkedRecallIDs')
+    prioritize_recalls(selected_recalls)
+    return render_template('total-recalls.html', data=recalls_data)
 
 @app.route('/recalls/details')
 def recall_details():
