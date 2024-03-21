@@ -19,16 +19,20 @@ def submit():
         else:
             return index()
 
-@app.route('/recalls', methods=['POST', 'GET'])
+@app.route('/recalls', methods=['GET'])
 def recalls():
     recalls_data = load_recalls()
-    selected_recalls = request.form.getlist('checkedRecallIDs')
-    prioritize_recalls(selected_recalls)
     return render_template('total-recalls.html', data=recalls_data)
 
 @app.route('/recalls/details')
 def recall_details():
     return render_template('recall-details.html')
+
+@app.route('/recalls/details', methods=['POST', 'GET'])
+def prior_recalls():
+    selected_recalls = request.form.getlist('checkedRecallIDs')
+    prioritize_recalls(selected_recalls)
+    return redirect(url_for('recalls'))
 
 if __name__ == '__main__':
     app.run(debug=True)
