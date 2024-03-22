@@ -15,7 +15,7 @@ def submit():
         if authenticate(username, password) == 'Manager':
             return recalls()
         elif authenticate(username, password) == 'Inspector':
-            return recalls()
+            return priority_recalls()
         else:
             return index()
 
