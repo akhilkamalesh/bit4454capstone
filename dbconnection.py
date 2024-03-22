@@ -59,14 +59,30 @@ def authenticate(username, password):
     else:
         return 'Inspector'
 
-def load_recalls():
+def load_recalls(priority=False):
     cnxn = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};Server=tcp:cpsc-server0313.database.windows.net,1433;Database=CPSCDatabase0313;Uid=cpscadmin;Pwd=CP$CD@taB!t4454;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
     cursor = cnxn.cursor()
 
-    cursor.execute("SELECT * FROM [dbo].[Recalls] WHERE IsPrioritized = 0")
+    if priority:
+        sql_query = "SELECT * FROM [dbo].[Recalls] WHERE IsPrioritized = 1"
+    else:
+        sql_query = "SELECT * FROM [dbo].[Recalls] WHERE IsPrioritized = 0"
+    
+    cursor.execute(sql_query)
     rows = cursor.fetchall()
 
-    return rows
+    recalls_data = []
+    for row in rows:
+        recall_dict = {
+            'RecallID': row.RecallID,
+            'ProductName': row.ProductName,
+            'UnitsInCirculation': row.UnitsInCirculation,
+            'RecallReason': row.RecallReason,
+            'RecallDate': str(row.RecallDate.date())
+        }
+        recalls_data.append(recall_dict)
+
+    return recalls_data
 
 def prioritize_recalls(selected_recalls):
 
@@ -80,25 +96,27 @@ def prioritize_recalls(selected_recalls):
     
     cursor.commit()
 
-    sql_query2 = "SELECT * FROM [dbo].[Recalls] WHERE IsPrioritized = 1"
-    cursor.execute(sql_query2)
-    results = cursor.fetchall()
+    return {}
 
-    sql_query3 = "SELECT * FROM [dbo].[User] where CPSCType = Investigator"
-    cursor.execute(sql_query3)
-    users = cursor.fetchall()
+    # sql_query2 = "SELECT * FROM [dbo].[Recalls] WHERE IsPrioritized = 1"
+    # cursor.execute(sql_query2)
+    # results = cursor.fetchall()
 
-    output = open('prioritizedrecalls.csv', 'w')
-    myFile = csv.writer(output)
-    myFile.writerows(results)
+    # sql_query3 = "SELECT * FROM [dbo].[User] where CPSCType = Investigator"
+    # cursor.execute(sql_query3)
+    # users = cursor.fetchall()
 
-    output.close()
+    # output = open('prioritizedrecalls.csv', 'w')
+    # myFile = csv.writer(output)
+    # myFile.writerows(results)
 
-    useroutput = open('investigatoremaillist.csv', 'w')
-    myUserFile = csv.writer(useroutput)
-    myUserFile.writerows(results)
+    # output.close()
 
-    useroutput.close()
+    # useroutput = open('investigatoremaillist.csv', 'w')
+    # myUserFile = csv.writer(useroutput)
+    # myUserFile.writerows(results)
+
+    # useroutput.close()
 
     
     cursor.close()

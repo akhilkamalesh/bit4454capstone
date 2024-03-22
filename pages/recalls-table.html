@@ -1,0 +1,293 @@
+{% extends "layouts/base-logged.html" %}
+
+{% block title %}Recalls{% endblock title %}
+
+{% block stylesheets %}
+<style>
+    .table-gray {
+        background-color: #a5acc6;
+        text-align: center;
+    }
+    .table-gray th,
+    .table-gray td {
+        border-color: white;
+        background-color: #a5acc6;
+        color: white;
+        font-family: Montserrat-Regular;
+    }
+    .table-gray th {
+        color: #525562;
+        font-family: Montserrat-Regular;
+        font-weight: bold;
+    }
+    .modal-button {
+        background-color: #27336e;
+        color: white;
+    }
+    .modal-button:hover {
+        background-color: #27336e;
+        color: white;
+        opacity: 0.85;
+    }
+    .modal-header {
+        font-family: Montserrat-Regular;
+        font-weight: lighter;
+        color: gray;
+    }
+    .modal-content {
+        background-color: #d8d8d8;
+    }
+    .checkbox input {
+        height: 0;
+        width: 0;
+      }
+    .checkbox {
+        position: relative;
+        user-select: none;
+    }
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 30px;
+        width: 30px;
+        border: 2px solid #c9c9c9;
+        background-color: #dedbdb;
+      } 
+      .checkbox:hover input ~ .checkmark {
+        background-color: #bcbcbc;
+      }
+      .checkbox input:checked ~ .checkmark {
+        background-color: #27336e;
+      }
+      a {
+        color: white;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+
+      .dataTables_info {
+        color: black;
+        font-family: Montserrat-Regular;
+      }
+
+      .paginate_button {
+        background-color: #a5acc6;
+        border: 2px solid white;
+        color: white;
+      }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col d-flex align-items-center justify-content-center mt-2">
+            <p class="h1 text-uppercase text-black fw-bold">product recall
+                alerts</p>
+        </div>
+    </div>
+    <form action="{{ url_for('select_priority')}}" method="POST">
+        <div class="row mt-5">
+            <table id="tblRecalls" class="table table-gray">
+                <thead>
+                    <tr class="text-uppercase">
+                        <th></th>
+                        <th>Recall ID</th>
+                        <th>Product Name</th>
+                        <th>Units in Circulations</th>
+                        <th>Recall Reason</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recall in data %}
+                    <tr>
+                        <td><label class="checkbox">
+                                <input type="checkbox" name="checkedRecallIDs"
+                                    value="{{ recall.RecallID }}" />
+                                <span class="checkmark"
+                                    style="display: none;"></span>
+                            </label></td>
+                        <td>{{recall.RecallID}}</td>
+                        <td><a
+                                href="{{ url_for('recall_details') }}">{{recall.ProductName}}</a></td>
+                        <td>{{recall.UnitsInCirculation}}</td>
+                        <td>{{recall.RecallReason}}</td>
+                        <td>{{recall.RecallDate}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="row my-5 py-3">
+            <div class="col-8">
+
+            </div>
+            <div class="col-2">
+                <button class="custom-btn text-uppercase"
+                    id="btnCancel"
+                    style="display: none; background-color: rgb(201, 0, 0);"
+                    type="button">cancel</button>
+            </div>
+            <div class="col-2">
+                <button class="custom-btn text-uppercase"
+                    id="btnSelect" type="button">select high
+                    priority</button>
+                <button class="custom-btn text-uppercase"
+                    id="btnConfirm" style="display: none;" data-toggle="modal"
+                    data-target="#confirmModal" type="submit">confirm</button>
+            </div>
+        </div>
+    </form>
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+        aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+
+                    <div class="row">
+                        <h5 class="modal-title text-uppercase text-center"
+                            id="confirmModalLabel">selected recalls have been
+                            prioritized and sent to CPSC investigator</h5>
+
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function updateTable() {
+            $.ajax({
+                url: '/recalls/load-table', // Change the URL to your Flask route that loads data from Azure database
+                type: 'GET', // Assuming you're retrieving data with a GET request
+                dataType: 'json',
+                success: function(data) {
+                    // Clear the existing table body
+                    $('#tblRecalls tbody').empty();
+        
+                    // Add new rows to the table
+                    data.forEach(function(item) {
+                        $('#tblRecalls tbody').append(`
+                            <tr>
+                                <td><label class="checkbox">
+                                    <input type="checkbox" name="checkedRecallIDs"
+                                        value="${ item.RecallID }" />
+                                    <span class="checkmark"
+                                        style="display: none;"></span>
+                                </label></td>
+                                <td>${item.RecallID}</td>
+                                <td>${item.ProductName}</td>
+                                <td>${item.UnitsInCirculation}</td>
+                                <td>${item.RecallReason}</td>
+                                <td>${item.RecallDate}</td>
+                            </tr>
+                        `);
+                    });
+        
+                    // If DataTable is already initialized, destroy it and recreate
+                    if ($.fn.DataTable.isDataTable('#tblRecalls')) {
+                        $('#tblRecalls').DataTable().destroy();
+                    }
+        
+                    // Initialize DataTable
+                    $('#tblRecalls').DataTable({
+                        "paging": true,
+                        "pageLength": 10,
+                        "searching": false,
+                        "lengthChange": false,
+                        "ordering": false
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        // use CDN tables to give the data table pagination
+        jQuery(document).ready(function() {
+            
+            // Initialize DataTable
+            $('#tblRecalls').DataTable({
+                "paging": true,
+                "pageLength": 10,
+                "searching": false,
+                "lengthChange": false,
+                "ordering": false
+            });
+        });
+
+        // initialize the buttons from the document by ID
+        let btnSelect = document.getElementById('btnSelect');
+        let btnConfirm = document.getElementById('btnConfirm');
+        let btnCancel = document.getElementById('btnCancel');
+
+        // event listener so that checkboxes will appear if the select button is clicked
+        // will also display the cancel and confirm buttons and remove the select button
+        btnSelect.addEventListener('click', function() {
+            let checkboxes = document.querySelectorAll('span[class="checkmark"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.style.display = 'block';
+            });
+
+            btnSelect.style.display = 'none';
+            btnConfirm.style.display = 'block';
+            btnCancel.style.display = 'block';
+        });
+
+        // event listener to remove the checkboxes, cancel, and confirm buttons and
+        // display the select button after pressing cancel
+        btnCancel.addEventListener('click', function () {
+            let checkboxes = document.querySelectorAll('span[class="checkmark"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+                checkbox.style.display = 'none';
+            });
+            btnSelect.style.display = 'block';
+            btnConfirm.style.display = 'none';
+            btnCancel.style.display = 'none';
+        });
+
+        // confirm the selection of high priority recalls and send the update to
+        // the database and then retrieve the newly updated data table
+        btnConfirm.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            var selectedIDs = [];
+
+            $('input[name="checkedRecallIDs"]:checked').each(function() {
+                selectedIDs.push($(this).val());
+            });
+            $.ajax({
+                url: '/recalls/select-priority',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({ ids: selectedIDs }),
+                success: function() {
+                    updateTable();
+                    let checkboxes = document.querySelectorAll('span[class="checkmark"]');
+                    checkboxes.forEach(function(checkbox) {
+                        checkbox.checked = false;
+                        checkbox.style.display = 'none';
+                    });
+                    btnSelect.style.display = 'block';
+                    btnConfirm.style.display = 'none';
+                    btnCancel.style.display = 'none';
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+</div>
+{% endblock content %}

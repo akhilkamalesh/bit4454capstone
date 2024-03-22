@@ -76,6 +76,8 @@
         background-color: #a5acc6;
         border: 2px solid white;
         color: white;
+        margin-bottom: 24px;
+        margin-top: 12px;
       }
 </style>
 {% endblock stylesheets %}
@@ -84,63 +86,42 @@
 <div class="container-fluid">
     <div class="row mt-5">
         <div class="col d-flex align-items-center justify-content-center mt-2">
-            <p class="h1 text-uppercase text-black fw-bold">product recall
-                alerts</p>
+            <p class="h1 text-uppercase text-black fw-bold">priority product recalls</p>
         </div>
     </div>
-    <form action="{{ url_for('prior_recalls')}}" method="POST">
-        <div class="row mt-5">
-            <table id="tblRecalls" class="table table-gray">
-                <thead>
-                    <tr class="text-uppercase">
-                        <th></th>
-                        <th>Recall ID</th>
-                        <th>Product Name</th>
-                        <th>Units in Circulations</th>
-                        <th>Recall Reason</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for recall in data %}
-                    <tr>
-                        <td><label class="checkbox">
-                                <input type="checkbox" name="checkedRecallIDs"
-                                    value="{{ recall.RecallID }}" />
-                                <span class="checkmark"
-                                    style="display: none;"></span>
-                            </label></td>
-                        <td>{{recall.RecallID}}</td>
-                        <td><a
-                                href="{{ url_for('recall_details') }}">{{recall.ProductName}}</a></td>
-                        <td>{{recall.UnitsInCirculation}}</td>
-                        <td>{{recall.RecallReason}}</td>
-                        <td>{{recall.RecallDate.date()}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="row mt-5">
+        <table id="tblRecalls" class="table table-gray">
+            <thead>
+                <tr class="text-uppercase">
+                    <th></th>
+                    <th>Recall ID</th>
+                    <th>Product Name</th>
+                    <th>Units in Circulations</th>
+                    <th>Recall Reason</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recall in data %}
+                <tr>
+                    <td><label class="checkbox">
+                            <input type="checkbox" name="checkedRecallIDs"
+                                value="{{ recall.RecallID }}" />
+                            <span class="checkmark"
+                                style="display: none;"></span>
+                        </label></td>
+                    <td>{{recall.RecallID}}</td>
+                    <td><a
+                            href="{{ url_for('recall_details') }}">{{recall.ProductName}}</a></td>
+                    <td>{{recall.UnitsInCirculation}}</td>
+                    <td>{{recall.RecallReason}}</td>
+                    <td>{{recall.RecallDate}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-        </div>
-        <div class="row my-5 py-3">
-            <div class="col-8">
-
-            </div>
-            <div class="col-2">
-                <button class="custom-btn text-uppercase"
-                    id="btnCancel"
-                    style="display: none; background-color: rgb(201, 0, 0);" type="button">cancel</button>
-            </div>
-            <div class="col-2">
-                <button class="custom-btn text-uppercase"
-                    id="btnSelect" type="button">select high
-                    priority</button>
-                <button class="custom-btn text-uppercase"
-                    id="btnConfirm" style="display: none;" data-toggle="modal"
-                    data-target="#confirmModal" type="submit">confirm</button>
-            </div>
-        </div>
-    </form>
+    </div>
     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
         aria-labelledby="confirmModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -161,7 +142,20 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        
+        // make the recalls table have 20 rows per page
+        jQuery(document).ready(function() {
+            $('#tblRecalls').DataTable({
+                "paging": true,
+                "pageLength": 10,
+                "searching": false,
+                "lengthChange": false,
+                "ordering": false,
+            });
+        });
+
         // initialize the buttons from the document by ID
         let btnSelect = document.getElementById('btnSelect');
         let btnConfirm = document.getElementById('btnConfirm');
@@ -195,39 +189,7 @@
         // add reset function as event listener for both cancel and confirm buttons
         btnCancel.addEventListener('click', reset);
         btnConfirm.addEventListener('click', reset);
-
-        // make the recalls table have 20 rows per page
-        $(document).ready(function() {
-            $('#tblRecalls').DataTable({
-                "paging": true,
-                "pageLength": 10,
-                "searching": false,
-                "lengthChange": false,
-                "ordering": false,
-            });
-        });
-
        
     </script>
 </div>
 {% endblock content %}
-
-<!-- 
- $(document).ready(function() {
-            $('#btnConfirm').click(function() {
-                let selected_recalls = $('input[type=checkbox]:checked').map(function() {
-                    return $(this).val();
-                }).get();
-                selected_recalls = [72];
-                $.ajax({
-                    url: '/prior-recalls',
-                    type: 'POST',
-                    data: { selected_recalls: selected_recalls },
-                    error: function(xhr, status, error) {
-                        console.error('Error updating database:', error);
-                    }
-                });
-            });
-        });
-
- -->
