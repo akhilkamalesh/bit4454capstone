@@ -31,8 +31,7 @@ function PriorityButtons({ setShowChecks, fetchRecalls }) {
                 body: JSON.stringify({ recallIDs: checkedRecallIDs })
             });
             if (response.ok) {
-                console.log('Recalls prioritized successfully');
-                console.log(response.body);
+                fetchRecalls();
             } else {
                 console.error('Failed to prioritize recalls');
             }

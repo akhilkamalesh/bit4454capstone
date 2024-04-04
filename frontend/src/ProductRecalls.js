@@ -18,7 +18,6 @@ function ProductRecalls() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
                 setRecalls(data);
             } else {
                 console.error('Failed to fetch recalls data');
