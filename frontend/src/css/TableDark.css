@@ -1,0 +1,32 @@
+.table-dark {
+    background-color: #252c47;
+    text-align: center;
+    height: 500px;
+    border-top: 1px solid darkgrey;
+    border-bottom: 1px solid darkgrey;
+}
+
+.table-dark th,
+.table-dark td {
+    border: none;
+    background-color: #252c47;
+    color: white;
+    font-family: Montserrat-Regular;
+
+}
+
+.table-dark th:nth-child(n+2),
+.table-dark td:nth-child(n+2) {
+    min-width: 140px;
+}
+
+.table-dark th {
+    font-family: Montserrat-Regular;
+    font-weight: bold;
+    border: none;
+    padding-top: 20px;
+}
+
+.table-dark tbody tr {
+    height: 80px;
+}

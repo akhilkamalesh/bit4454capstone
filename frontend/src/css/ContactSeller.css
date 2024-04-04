@@ -1,0 +1,31 @@
+.contact-form {
+    color: white;
+    background-color: #252c47;
+    border: 1px solid darkgrey;
+}
+
+.contact-form:hover {
+    color: white;
+    background-color: #252c47;
+    border: 1px solid darkgrey;
+}
+
+.contact-form:active {
+    color: white;
+    background-color: #252c47;
+    border: 1px solid darkgrey;
+}
+
+.contact-form::placeholder {
+    color: white;
+}
+
+.contact-form:focus {
+    color: white;
+    background-color: #252c47;
+    border: 1px solid darkgrey;
+}
+
+textarea {
+    resize: none;
+}

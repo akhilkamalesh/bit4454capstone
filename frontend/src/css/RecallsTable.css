@@ -1,0 +1,68 @@
+/* Example styles for ReactPaginate */
+.react-paginate {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.react-paginate ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.react-paginate li {
+  margin-right: 5px;
+  color: white;
+}
+
+.react-paginate a {
+  display: inline-block;
+  padding: 8px 12px;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  text-decoration: none;
+  background-color: #a5acc6;
+}
+
+.react-paginate a.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.react-paginate a:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.table-gray {
+  background-color: #a5acc6;
+  text-align: center;
+  height: 500px;
+}
+
+.table-gray th,
+.table-gray td {
+  border-color: white;
+  background-color: #a5acc6;
+  color: white;
+  font-family: Montserrat-Regular;
+
+}
+
+.table-gray th:nth-child(n+2),
+.table-gray td:nth-child(n+2) {
+  min-width: 140px;
+}
+
+.table-gray th {
+  color: #525562;
+  font-family: Montserrat-Regular;
+  font-weight: bold;
+}
+
+.table-gray tbody tr {
+  height: 80px;
+}

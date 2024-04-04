@@ -1,0 +1,200 @@
+{% extends "layouts/base-logged.html" %}
+
+{% block title %}Recalls{% endblock title %}
+
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col d-flex align-items-center justify-content-center mt-2">
+            <p class="h1 text-uppercase text-black fw-bold">product recall
+                alerts</p>
+        </div>
+    </div>
+    <form action="{{ url_for('select_priority')}}" method="POST">
+        <div class="row mt-5">
+            <table id="tblRecalls" class="table table-gray">
+                <thead>
+                    <tr class="text-uppercase">
+                        <th></th>
+                        <th>Recall ID</th>
+                        <th>Product Name</th>
+                        <th>Units in Circulations</th>
+                        <th>Recall Reason</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recall in data %}
+                    <tr>
+                        <td><label class="checkbox">
+                                <input type="checkbox" name="checkedRecallIDs"
+                                    value="{{ recall.RecallID }}" />
+                                <span class="checkmark"
+                                    style="display: none;"></span>
+                            </label></td>
+                        <td>{{recall.RecallID}}</td>
+                        <td><a
+                                href="{{ url_for('recall_details') }}">{{recall.ProductName}}</a></td>
+                        <td>{{recall.UnitsInCirculation}}</td>
+                        <td>{{recall.RecallReason}}</td>
+                        <td>{{recall.RecallDate}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="row my-5 py-3">
+            <div class="col-8">
+
+            </div>
+            <div class="col-2">
+                <button class="custom-btn text-uppercase"
+                    id="btnCancel"
+                    style="display: none; background-color: rgb(201, 0, 0);"
+                    type="button">cancel</button>
+            </div>
+            <div class="col-2">
+                <button class="custom-btn text-uppercase"
+                    id="btnSelect" type="button">select high
+                    priority</button>
+                <button class="custom-btn text-uppercase"
+                    id="btnConfirm" style="display: none;" data-toggle="modal"
+                    data-target="#confirmModal" type="submit">confirm</button>
+            </div>
+        </div>
+    </form>
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function updateTable() {
+            $.ajax({
+                url: '/recalls/load-table', // Change the URL to your Flask route that loads data from Azure database
+                type: 'GET', // Assuming you're retrieving data with a GET request
+                dataType: 'json',
+                success: function(data) {
+                    // Clear the existing table body
+                    $('#tblRecalls tbody').empty();
+        
+                    // Add new rows to the table
+                    data.forEach(function(item) {
+                        $('#tblRecalls tbody').append(`
+                            <tr>
+                                <td><label class="checkbox">
+                                    <input type="checkbox" name="checkedRecallIDs"
+                                        value="${ item.RecallID }" />
+                                    <span class="checkmark"
+                                        style="display: none;"></span>
+                                </label></td>
+                                <td>${item.RecallID}</td>
+                                <td>${item.ProductName}</td>
+                                <td>${item.UnitsInCirculation}</td>
+                                <td>${item.RecallReason}</td>
+                                <td>${item.RecallDate}</td>
+                            </tr>
+                        `);
+                    });
+        
+                    // If DataTable is already initialized, destroy it and recreate
+                    if ($.fn.DataTable.isDataTable('#tblRecalls')) {
+                        $('#tblRecalls').DataTable().destroy();
+                    }
+        
+                    // Initialize DataTable
+                    $('#tblRecalls').DataTable({
+                        "paging": true,
+                        "pageLength": 10,
+                        "searching": false,
+                        "lengthChange": false,
+                        "ordering": false
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        // use CDN tables to give the data table pagination
+        jQuery(document).ready(function() {
+            
+            // Initialize DataTable
+            $('#tblRecalls').DataTable({
+                "paging": true,
+                "pageLength": 10,
+                "searching": false,
+                "lengthChange": false,
+                "ordering": false
+            });
+        });
+
+        // initialize the buttons from the document by ID
+        let btnSelect = document.getElementById('btnSelect');
+        let btnConfirm = document.getElementById('btnConfirm');
+        let btnCancel = document.getElementById('btnCancel');
+
+        // event listener so that checkboxes will appear if the select button is clicked
+        // will also display the cancel and confirm buttons and remove the select button
+        btnSelect.addEventListener('click', function() {
+            let checkboxes = document.querySelectorAll('span[class="checkmark"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.style.display = 'block';
+            });
+
+            btnSelect.style.display = 'none';
+            btnConfirm.style.display = 'block';
+            btnCancel.style.display = 'block';
+        });
+
+        // event listener to remove the checkboxes, cancel, and confirm buttons and
+        // display the select button after pressing cancel
+        btnCancel.addEventListener('click', function () {
+            let checkboxes = document.querySelectorAll('span[class="checkmark"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+                checkbox.style.display = 'none';
+            });
+            btnSelect.style.display = 'block';
+            btnConfirm.style.display = 'none';
+            btnCancel.style.display = 'none';
+        });
+
+        // confirm the selection of high priority recalls and send the update to
+        // the database and then retrieve the newly updated data table
+        btnConfirm.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            var selectedIDs = [];
+
+            $('input[name="checkedRecallIDs"]:checked').each(function() {
+                selectedIDs.push($(this).val());
+            });
+            $.ajax({
+                url: '/recalls/select-priority',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({ ids: selectedIDs }),
+                success: function() {
+                    updateTable();
+                    let checkboxes = document.querySelectorAll('span[class="checkmark"]');
+                    checkboxes.forEach(function(checkbox) {
+                        checkbox.checked = false;
+                        checkbox.style.display = 'none';
+                    });
+                    btnSelect.style.display = 'block';
+                    btnConfirm.style.display = 'none';
+                    btnCancel.style.display = 'none';
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+</div>
+{% endblock content %}

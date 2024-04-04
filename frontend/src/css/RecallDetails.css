@@ -1,0 +1,21 @@
+.desc {
+    background-color: #252c47;
+    border-radius: 1px;
+    border-color: gray;
+    border-width: 1px;
+    border-style: solid;
+    font-family: Montserrat-Regular;
+    height: 28.5rem;
+}
+
+.product {
+    height: 32rem;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+}
