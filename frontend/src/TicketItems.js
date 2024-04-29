@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from "./Navbar";
-import TicketsTable from './TicketTable';
+import TicketsTable from './Tables/TicketTable';
 
 function TicketItems() {
     const [ticketsData, setTicketsData] = useState([]);

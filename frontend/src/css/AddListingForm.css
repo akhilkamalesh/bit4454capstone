@@ -1,0 +1,20 @@
+.form-dark {
+    background-color: #252c47;
+    color: white;
+    font-weight: bold;
+    padding: 50px 50px;
+    border: 1px solid darkgrey;
+}
+
+.form-dark-btn {
+    background-color: #141724;
+    color: white;
+    border-radius: 25px;
+}
+
+.form-dark-btn:hover {
+    background-color: #141724;
+    color: white;
+    border-radius: 25px;
+    opacity: 80%;
+}

@@ -1,5 +1,5 @@
-import Navbar from "./Navbar";
-import './css/ContactSeller.css'
+import Navbar from "../Navbar";
+import '../css/ContactSeller.css'
 
 function ContactSeller() {
     return (

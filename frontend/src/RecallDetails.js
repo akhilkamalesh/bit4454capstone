@@ -9,7 +9,7 @@ function RecallDetails() {
             <div className="container-fluid">
                 <div className="row mt-5">
                     <div className="d-flex align-items-center justify-content-center mt-3">
-                        <p className="h1 text-uppercase text-black fw-bold">recall details</p>
+                        <p className="h1 text-uppercase text-black fw-bold">product details</p>
                     </div>
                 </div>
                 <div className="row mt-5">
@@ -18,7 +18,7 @@ function RecallDetails() {
                         <img className="product" src='https://s7d1.scene7.com/is/image/dish/Samsung_Galaxy_A15_Blue_Black_Hero?$ProductBase$&fmt=webp' />
                         <div className="row my-5">
                             <div className='col-4'>
-                                <a href="../recalls">
+                                <a href="../listings">
                                     <button className="custom-btn text-uppercase" onclick="">back</button>
                                 </a>
                             </div>

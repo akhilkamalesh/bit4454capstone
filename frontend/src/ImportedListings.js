@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from "./Navbar";
 import ListingTable from './ListingTable';
+import AddListingButton from './Buttons/AddListingButton';
 
 function TicketItems() {
-    const [ticketsData, setTicketsData] = useState([]);
     const [listingsData, setListingsData] = useState([]);
 
     useEffect(() => {
@@ -12,12 +12,11 @@ function TicketItems() {
 
     const fetchData = async () => {
         try {
-            let endpointStr = 'http://localhost:4000/api/load-tickets';
+            let endpointStr = 'http://localhost:4000/api/load-listings';
             const response = await fetch(endpointStr);
             if (response.ok) {
                 const data = await response.json();
-                setTicketsData(data.tickets);
-                setListingsData(data.listings);
+                setListingsData(data);
             } else {
                 console.error('Failed to fetch tickets data');
             }
@@ -35,7 +34,8 @@ function TicketItems() {
                         <h1 className="text-center mt-5 mb-5 text-black fw-bold text-uppercase">imported listings</h1>
                     </div>
                 </div>
-                <ListingTable tickets={ticketsData} listings={listingsData} />
+                <ListingTable listings={listingsData}/>
+                <AddListingButton />
             </div>
 
         </div>

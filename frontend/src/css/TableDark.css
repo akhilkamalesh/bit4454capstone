@@ -1,10 +1,7 @@
 .table-dark {
     background-color: #252c47;
     text-align: center;
-    height: 500px;
-    border-top: 1px solid darkgrey;
-    border-bottom: 1px solid darkgrey;
-}
+    border: 1px solid darkgrey;}
 
 .table-dark th,
 .table-dark td {
@@ -29,4 +26,30 @@
 
 .table-dark tbody tr {
     height: 80px;
+}
+
+.table-inbox {
+    background-color: #252c47;
+    border: 1px solid darkgrey;
+}
+
+.table-inbox td {
+    border: none;
+    background-color: #252c47;
+    color: white;
+    font-family: Montserrat-Regular;
+    padding-left: 20px;
+}
+
+.table-inbox tbody tr {
+    height: 80px;
+}
+
+.table-cell {
+    color: white;
+}
+
+.table-cell:hover {
+    text-decoration: none;
+    color: white;
 }

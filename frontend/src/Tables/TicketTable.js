@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/TableDark.css';
+import '../css/TableDark.css';
 import ReactPaginate from 'react-paginate';
 
 function TicketsTable({ tickets, listings }) {
@@ -105,17 +105,23 @@ function TicketsTable({ tickets, listings }) {
                     </tbody>
                 </table>
             </div>
-            <div className='row mb-4'>
+            <div className='row mt-4'>
+                <div className='col-4'/>
                 <ReactPaginate
-                    className='react-paginate'
-                    breakLabel="..."
-                    nextLabel="next >"
+                    activeClassName={'item active '}
+                    breakClassName={'item break-me '}
+                    breakLabel={'...'}
+                    containerClassName={'pagination'}
+                    disabledClassName={'disabled-page'}
+                    nextClassName={"item next "}
+                    pageClassName={'item pagination-page '}
+                    previousClassName={"item next"}
+                    nextLabel=">"
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={2}
+                    pageRangeDisplayed={1}
                     pageCount={pageCount}
-                    previousLabel="< previous"
-                    renderOnZeroPageCount={null}
-                />
+                    previousLabel="<"
+                    renderOnZeroPageCount={null} />
             </div>
         </div>
     );

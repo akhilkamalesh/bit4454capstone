@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from "./Navbar";
-import PriorityButtons from "./PriorityButtons";
 import RecallsTable from "./RecallsTable";
 
-function ProductRecalls() {
+function HighPriority() {
     const [recallsData, setRecalls] = useState([]);
-    const [showChecks, setShowChecks] = useState(false);
 
     useEffect(() => {
         fetchRecallsData();
@@ -13,7 +11,7 @@ function ProductRecalls() {
 
     const fetchRecallsData = async () => {
         try {
-            let endpointStr = 'http://localhost:4000/api/load-recalls';
+            let endpointStr = 'http://localhost:4000/api/load-high-prior';
             const response = await fetch(endpointStr);
 
             if (response.ok) {
@@ -33,17 +31,17 @@ function ProductRecalls() {
         <div>
             <Navbar />
             <div className='container-fluid'>
+                
                 <div className="row mt-4">
                     <div className="col d-flex align-items-center justify-content-center mt-2">
-                        <p className="h1 text-uppercase text-black fw-bold">product recall alerts</p>
+                        <p className="h1 text-uppercase text-black fw-bold">high priority recalls</p>
                     </div>
                 </div>
-                <RecallsTable recalls={recallsData} showChecks={showChecks} />
-                <PriorityButtons setShowChecks={setShowChecks} fetchRecalls={fetchRecallsData} />
+                <RecallsTable recalls={recallsData} />
             </div>
         </div>
 
     );
 }
 
-export default ProductRecalls;
+export default HighPriority;

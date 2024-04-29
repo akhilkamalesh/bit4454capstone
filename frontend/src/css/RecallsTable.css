@@ -5,20 +5,19 @@
   margin-top: 20px;
 }
 
-.react-paginate ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-}
-
 .react-paginate li {
-  margin-right: 5px;
+  padding: 8px 12px;
   color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  text-decoration: none;
+  background-color: #a5acc6;
+  width: auto;
+  height: 48px;
+  margin-right: 5px;
 }
 
-.react-paginate a {
-  display: inline-block;
+.react-paginate li a:active {
   padding: 8px 12px;
   color: white;
   border: 1px solid white;
@@ -27,12 +26,8 @@
   background-color: #a5acc6;
 }
 
-.react-paginate a.active {
-  background-color: #007bff;
-  color: white;
-}
 
-.react-paginate a:hover {
+.react-paginate li a:hover {
   background-color: #007bff;
   color: #fff;
 }

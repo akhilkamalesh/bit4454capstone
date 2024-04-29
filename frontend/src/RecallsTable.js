@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactPaginate from 'react-paginate';
 import './css/RecallsTable.css';
+import './css/ReactPaginate.css'
 
 function RecallsTable({ recalls, showChecks }) {
     const [itemOffset, setItemOffset] = useState(0);
@@ -19,12 +20,7 @@ function RecallsTable({ recalls, showChecks }) {
     };
 
     return (
-        <div className="container-fluid">
-            <div className="row mt-4">
-                <div className="col d-flex align-items-center justify-content-center mt-2">
-                    <p className="h1 text-uppercase text-black fw-bold">product recall alerts</p>
-                </div>
-            </div>
+        <div>
             <div className="row mt-4">
                 <table id="tblRecalls" className="table table-gray">
                     <thead>
@@ -44,7 +40,7 @@ function RecallsTable({ recalls, showChecks }) {
                                     <input type="checkbox" name="checkedRecallIDs"
                                         value={recall.RecallID} />
                                     <span className="checkmark"
-                                        style={{display: showChecks ? 'block' : 'none'}}></span>
+                                        style={{ display: showChecks ? 'block' : 'none' }}></span>
                                 </label></td>
                                 <td>{recall.RecallID}</td>
                                 <td>{recall.ProductName}</td>
@@ -57,16 +53,22 @@ function RecallsTable({ recalls, showChecks }) {
                 </table>
             </div>
             <div className='row mb-4'>
+                <div className='col-4'/>
                 <ReactPaginate
-                    className='react-paginate'
-                    breakLabel="..."
-                    nextLabel="next >"
+                    activeClassName={'item active '}
+                    breakClassName={'item break-me '}
+                    breakLabel={'...'}
+                    containerClassName={'pagination'}
+                    disabledClassName={'disabled-page'}
+                    nextClassName={"item next "}
+                    pageClassName={'item pagination-page '}
+                    previousClassName={"item next"}
+                    nextLabel=">"
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={2}
+                    pageRangeDisplayed={1}
                     pageCount={pageCount}
-                    previousLabel="< previous"
-                    renderOnZeroPageCount={null}
-                />
+                    previousLabel="<"
+                    renderOnZeroPageCount={null} />
             </div>
         </div>
     );

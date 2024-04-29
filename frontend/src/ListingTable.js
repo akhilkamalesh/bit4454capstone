@@ -3,24 +3,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/TableDark.css';
 import ReactPaginate from 'react-paginate';
 
-function ListingTable({ tickets, listings }) {
+function ListingTable({ listings }) {
     const [itemOffset, setItemOffset] = useState(0);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
     const itemsPerPage = 5;
     const endOffset = itemOffset + itemsPerPage;
-    const pageCount = Math.ceil(tickets.length / itemsPerPage);
+    const pageCount = Math.ceil(listings.length / itemsPerPage);
 
     const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % tickets.length;
+        const newOffset = (event.selected * itemsPerPage) % listings.length;
         console.log(
             `User requested page number ${event.selected}, which is offset ${newOffset}`
         );
         setItemOffset(newOffset);
     };
 
-    const getListingByTicketID = (ticketID) => {
-        return listings.find(listing => listing.ListingID === ticketID);
-    };
 
     const handleSort = (key) => {
         let direction = 'ascending';
@@ -32,7 +29,7 @@ function ListingTable({ tickets, listings }) {
 
     const priorityOrder = { high: 3, medium: 2, low: 1, High: 3, Medium: 2, Low: 1 }; // Define custom priority order
 
-    const sortedTickets = [...tickets].sort((a, b) => {
+    const sortedListings = [...listings].sort((a, b) => {
         if (sortConfig.key !== null) {
             if (sortConfig.key === 'PriorityLevel') {
                 // Sort based on custom priority order
@@ -69,11 +66,11 @@ function ListingTable({ tickets, listings }) {
     return (
         <div className="container-fluid">
             <div className="row">
-                <table id="tblTickets" className="table-dark">
+                <table id="tblListings" className="table-dark">
                     <thead>
                         <tr className="text-uppercase">
                             <th onClick={() => handleSort('ListingID')}>
-                                recall id {getSortArrow('ListingID')}
+                                listing id {getSortArrow('ListingID')}
                             </th>
                             <th onClick={() => handleSort('ListingName')}>
                                 product name {getSortArrow('ListingName')}
@@ -81,41 +78,44 @@ function ListingTable({ tickets, listings }) {
                             <th onClick={() => handleSort('SellerID')}>
                                 seller {getSortArrow('SellerID')}
                             </th>
-                            <th onClick={() => handleSort('PriorityLevel')}>
-                                priority {getSortArrow('PriorityLevel')}
-                            </th>
-                            <th onClick={() => handleSort('TicketDateTime')}>
-                                date added {getSortArrow('TicketDateTime')}
+                            <th onClick={() => handleSort('ItemListDate')}>
+                                date added {getSortArrow('ItemListDate')}
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedTickets.slice(itemOffset, endOffset).map(ticket => {
-                            const listing = getListingByTicketID(ticket.ListingID);
+                        {sortedListings.slice(itemOffset, endOffset).map(listing => {
                             return (
-                                <tr key={ticket.ListingID}>
-                                    <td>{listing ? listing.RecallID : '-'}</td>
-                                    <td>{listing ? listing.ListingName : '-'}</td>
-                                    <td>{listing ? listing.Vendor : '-'}</td>
-                                    <td>{ticket.PriorityLevel}</td>
-                                    <td>{ticket.TicketDateTime}</td>
+                                <tr key={listing.ListingID}>
+                                    <td>{listing.ListingID}</td>
+                                    <a  href='../details' >
+                                        <td>{listing.ListingName}</td>
+                                    </a>
+                                    <td>{listing.Vendor}</td>
+                                    <td>{listing.ItemListDate}</td>
                                 </tr>
                             );
                         })}
                     </tbody>
                 </table>
             </div>
-            <div className='row mb-4'>
+            <div className='row mt-4'>
+                <div className='col-4'/>
                 <ReactPaginate
-                    className='react-paginate'
-                    breakLabel="..."
-                    nextLabel="next >"
+                    activeClassName={'item active '}
+                    breakClassName={'item break-me '}
+                    breakLabel={'...'}
+                    containerClassName={'pagination'}
+                    disabledClassName={'disabled-page'}
+                    nextClassName={"item next "}
+                    pageClassName={'item pagination-page '}
+                    previousClassName={"item next"}
+                    nextLabel=">"
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={2}
+                    pageRangeDisplayed={1}
                     pageCount={pageCount}
-                    previousLabel="< previous"
-                    renderOnZeroPageCount={null}
-                />
+                    previousLabel="<"
+                    renderOnZeroPageCount={null} />
             </div>
         </div>
     );
